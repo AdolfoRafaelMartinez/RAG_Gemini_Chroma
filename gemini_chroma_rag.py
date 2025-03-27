@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import requests
 from pypdf import PdfReader
 import os
@@ -6,6 +7,8 @@ import google.generativeai as genai
 from chromadb import Documents, EmbeddingFunction, Embeddings
 import chromadb
 from typing import List
+
+load_dotenv()
 
 # Download the PDF from the specified URL and save it to the given path
 def download_pdf(url, save_path):
@@ -31,7 +34,7 @@ def load_pdf(file_path):
 pdf_text = load_pdf(pdf_path)
 
 # Set and validate the API key for Gemini API
-os.environ['GEMINI_API_KEY'] = 'AIzaSyANwuwPpZat9Qjzz6LEiq-UotCFIbwkx8A'
+# os.environ['GEMINI_API_KEY'] = ''
 gemini_api_key = os.getenv("GEMINI_API_KEY")
 if not gemini_api_key:
     raise ValueError("Gemini API Key not provided or incorrect. Please provide a valid GEMINI_API_KEY.")

@@ -2,3 +2,4 @@ pypdf
 google-generativeai
 chromadb
 typing
+python-dotenv
