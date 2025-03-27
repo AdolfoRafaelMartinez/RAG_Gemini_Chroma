@@ -7,6 +7,7 @@ import google.generativeai as genai
 from chromadb import Documents, EmbeddingFunction, Embeddings
 import chromadb
 from typing import List
+import subprocess
 
 load_dotenv()
 
@@ -17,9 +18,9 @@ def download_pdf(url, save_path):
         f.write(response.content)
 
 # URL and local path for the PDF document
-pdf_url = "https://services.google.com/fh/files/misc/ai_adoption_framework_whitepaper.pdf"
-pdf_path = "ai_adoption_framework_whitepaper.pdf"
-download_pdf(pdf_url, pdf_path)
+# pdf_url = "https://services.google.com/fh/files/misc/ai_adoption_framework_whitepaper.pdf"
+pdf_path = "wallflower.pdf"
+# download_pdf(pdf_url, pdf_path)
 
 # Load the PDF file and extract text from each page
 def load_pdf(file_path):
@@ -66,6 +67,7 @@ if not os.path.exists(db_folder):
 
 # Create a Chroma database with the given documents
 def create_chroma_db(documents: List[str], path: str, name: str):
+    some_var = subprocess.run(['rm', '-rf', 'chroma_db']) #, capture_output=False, text=True)
     chroma_client = chromadb.PersistentClient(path=path)
     db = chroma_client.create_collection(name=name, embedding_function=GeminiEmbeddingFunction())
     for i, d in enumerate(documents):
@@ -89,8 +91,8 @@ def get_relevant_passage(query: str, db, n_results: int):
     results = db.query(query_texts=[query], n_results=n_results)
     return [doc[0] for doc in results['documents']]
 
-query = "What is the AI Maturity Scale?"
-relevant_text = get_relevant_passage(query, db, n_results=1)
+# query = "What is the AI Maturity Scale?"
+# relevant_text = get_relevant_passage(query, db, n_results=1)
 
 # Construct a prompt for the generation model based on the query and retrieved data
 def make_rag_prompt(query: str, relevant_passage: str):
@@ -117,9 +119,9 @@ def generate_answer(prompt: str):
     return result.text
 
 # Construct the prompt and generate the answer
-final_prompt = make_rag_prompt(query, "".join(relevant_text))
-answer = generate_answer(final_prompt)
-print(answer)
+# final_prompt = make_rag_prompt(query, "".join(relevant_text))
+# answer = generate_answer(final_prompt)
+# print(answer)
 
 # Interactive function to process user input and generate an answer
 def process_query_and_generate_answer():
@@ -137,4 +139,5 @@ def process_query_and_generate_answer():
     print("Generated Answer:", answer)
 
 # Invoke the function to interact with user
-process_query_and_generate_answer()
+while True:
+    process_query_and_generate_answer()
