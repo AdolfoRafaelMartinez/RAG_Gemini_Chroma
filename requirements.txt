@@ -1,0 +1,4 @@
+pypdf
+google-generativeai
+chromadb
+typing
