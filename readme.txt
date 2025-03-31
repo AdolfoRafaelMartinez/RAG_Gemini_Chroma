@@ -1,1 +1,1 @@
-python gemini_chroma_rag.py
+GEMINI_API_KEY="some key" python gemini_chroma_rag.py
