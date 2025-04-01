@@ -1,0 +1,5 @@
+dotenv
+requests
+pypdf
+google-generativeai
+chromadb
